@@ -1,3 +1,9 @@
+'''
+Author: Suraj N Temkar
+Date: 15/04/2021
+Title: Perform CRUD Operations 
+'''
+
 import mysql.connector as connector
 
 class CRUD:
@@ -50,13 +56,13 @@ class CRUD:
         print("Updated Successfully...")
 
 
-if __name__ == '__main__':
-    operations = CRUD()
-    # operations.insert(21,"Suraj","8668958393")
-    # operations.insert(204,"Raj","4578421578")
-    # operations.insert(80,"Soham","9578461254")
-    # operations.select()
-    operations.delete(80)
-    operations.select()
-    operations.update(204,"Anjali","5784578457")
-    operations.select()
+# if __name__ == '__main__':
+#     operations = CRUD()
+#     # operations.insert(21,"Suraj","8668958393")
+#     # operations.insert(204,"Raj","4578421578")
+#     # operations.insert(80,"Soham","9578461254")
+#     # operations.select()
+#     operations.delete(80)
+#     operations.select()
+#     operations.update(204,"Anjali","5784578457")
+#     operations.select()
