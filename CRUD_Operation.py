@@ -5,6 +5,20 @@ Title: Perform CRUD Operations
 '''
 
 import mysql.connector as connector
+import logging
+import Logger1
+
+logger = logging.getLogger(__name__)
+
+logger.setLevel(logging.INFO)
+
+formater = logging.Formatter('%(levelname)s : %(message)s')
+
+file_handler = logging.FileHandler('database.log')
+file_handler.setFormatter(formater)
+
+logger.addHandler(file_handler)
+
 
 class CRUD:
     def __init__(self):
