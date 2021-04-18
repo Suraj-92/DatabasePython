@@ -10,6 +10,8 @@ import socket
 import threading    # """Thread module emulating a subset of Java's threading model."""
 import pickle   # Create portable serialized representations of Python objects.
 import mysql.connector 
+import datetime
+import time
 
 connectedlist = []  # Store data in the list 
 
@@ -24,15 +26,23 @@ print("Bind to the local port", ret)
 serversocket.listen(5)
 print("Started listening to the local port ")
 
+server_start_time = time.time()
+session_time_stamp = datetime.datetime.fromtimestamp(server_start_time).strftime("%Y-%m-%d %H:%M:%S")
+print("Server Start Time...",session_time_stamp)
+auto_increment = 0
+
 def chatbackup(clientname, message, cursor):
-    mySql_insert_query = """INSERT INTO chat_app (client_name, chat) 
+    mySql_insert_query = """INSERT INTO chatserver (session_start_time, Id, client_name, chat) 
                             VALUES 
-                            (%s, %s) """
-    values = (clientname, message)
+                            (%s, %s, %s, %s) """
+    global auto_increment
+    global session_time_stamp
+    auto_increment += 1
+    values = (session_time_stamp, auto_increment,  clientname, message)
 
     cursor.execute(mySql_insert_query, values)
     connection.commit()
-    print(cursor.lastrowid, "Record inserted successfully into table")
+    print("Record inserted successfully into chatserver table")
     # cursor.close()
 
 
@@ -54,7 +64,7 @@ def NewChatClient(client, ip, cursor):
     
 try:
     connection = mysql.connector.connect(host='localhost',
-                                            database='chatapplication',
+                                            database='server',
                                             user='root',
                                             port='3306',
                                             password='root')
@@ -65,6 +75,7 @@ try:
         print("New client connected from: ",ip)
 
         clientsocket.send(bytes("Connected","utf-8"))
+
         # Get the client name
         clientname = clientsocket.recv(1024).decode()
         nameclientpair = [clientname, clientsocket]
